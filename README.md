@@ -1,36 +1,69 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ClinLeads
 
-## Getting Started
+Protótipo de um assistente de atendimento para clínicas que organiza conversas do WhatsApp e destaca os leads que precisam de atenção humana.
 
-First, run the development server:
+> Status: prova de conceito. O painel usa dados simulados e o webhook está preparado para receber eventos, mas as integrações com banco de dados, IA e envio de mensagens ainda não estão concluídas.
+
+## Problema explorado
+
+Clínicas recebem muitos contatos pelo WhatsApp e podem perder oportunidades entre perguntas repetidas, pedidos de orçamento e tentativas de agendamento. A ideia do ClinLeads é ajudar a equipe a visualizar o funil e assumir rapidamente as conversas mais importantes.
+
+## O que já existe
+
+- Painel responsivo com métricas e lista de leads.
+- Estados de atendimento: em conversa, solicitou agendamento, agendado e requer atenção humana.
+- Endpoint de webhook com autenticação por segredo.
+- Leitura inicial de payloads típicos de provedores de WhatsApp.
+- Estrutura preparada para persistência e automação com IA.
+
+## Fluxo proposto
+
+1. O provedor de WhatsApp envia uma mensagem ao webhook.
+2. O sistema identifica o contato e registra a interação.
+3. A IA classifica a intenção e sugere ou envia uma resposta.
+4. Casos sensíveis ou comerciais são encaminhados para uma pessoa.
+5. O painel mostra o andamento dos leads e agendamentos.
+
+## Tecnologias
+
+- Next.js
+- React
+- TypeScript
+- Tailwind CSS
+- Lucide React
+
+Planejado para as próximas etapas: Supabase, provedor de WhatsApp e API de IA.
+
+## Executar localmente
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abra [http://localhost:3000](http://localhost:3000). A página inicial direciona para o painel em `/dashboard`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Para testar o webhook, defina uma variável de ambiente:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```env
+WEBHOOK_SECRET=use-um-valor-seguro
+```
 
-## Learn More
+O endpoint é `POST /api/webhook/whatsapp` e aceita o segredo nos cabeçalhos `Authorization: Bearer ...` ou `x-api-key`.
 
-To learn more about Next.js, take a look at the following resources:
+## Próximas etapas
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Persistir leads e mensagens no Supabase.
+- Integrar um provedor real de WhatsApp.
+- Adicionar classificação de intenção e respostas assistidas por IA.
+- Criar autenticação para o painel.
+- Substituir métricas simuladas por dados reais.
+- Adicionar testes do webhook e dos fluxos críticos.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Aprendizados
 
-## Deploy on Vercel
+Este projeto serviu para explorar descoberta de produto, desenho de fluxo de atendimento, integração por webhook e construção rápida de um painel operacional. A prioridade foi validar a experiência antes de investir em uma infraestrutura completa.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Autor
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Criado por [Davi Correia](https://www.linkedin.com/in/davi-correia-b43981418/).
